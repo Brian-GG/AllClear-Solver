@@ -25,7 +25,22 @@ class PieceConfig:
         return f"PieceConfig({self.piece_name, self.SRSstate})"
 
 
+pieceConfigs = {
+    'I': [],
+    'J': [],
+    'L': [],
+    'O': [],
+    'S': [],
+    'T': [],
+    'Z': []
+}
 
+for piece_name in pieceConfigs:
+    for i in range(4):
+        pieceConfigs[piece_name].append(PieceConfig(piece_name, i))
+
+for piece_name in pieceConfigs:
+    constraint.add_exactly_one(E, *(pieceConfigs[piece_name]))
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
