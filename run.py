@@ -42,6 +42,15 @@ for piece_name in pieceConfigs:
 for piece_name in pieceConfigs:
     constraint.add_exactly_one(E, *(pieceConfigs[piece_name]))
 
+for i in range(len(pieceConfigs['I'])):
+    if i > 1:
+        E.add_constraint(~PieceConfig('I', i))
+        E.add_constraint(~PieceConfig('S', i))
+        E.add_constraint(~PieceConfig('Z', i))
+        E.add_constraint(~PieceConfig('O', i))
+    elif i > 0:
+        E.add_constraint(~PieceConfig('O', i))
+
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
 # that are instances of this class must be true by using a @constraint decorator.
