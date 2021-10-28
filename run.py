@@ -51,10 +51,32 @@ for i in range(len(pieceConfigs['I'])):
     elif i > 0:
         E.add_constraint(~PieceConfig('O', i))
 
+names = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']
 @proposition(E)
 class PiecePosition:
     def __init__(self, piece_name, SRSstate, x, y):
-        def __init__ 
+        self.piece_name = piece_name
+        self.SRSstate = SRSstate
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f"({self.piece_name, self.SRSstate, self.x, self.y})"
+
+piecePlacements = {
+    "1": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
+    "2": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
+    "3": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
+    "4": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
+    "5": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)}
+}
+
+for place in piecePlacements:
+    for piece_name in range(names):
+        for SRSstate in range (4):
+            for x in range (10):
+                for y in range (20):
+                    piecePlacements[place][SRSstate][(x, y)] = PiecePosition()
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
