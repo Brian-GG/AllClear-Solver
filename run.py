@@ -51,6 +51,11 @@ for i in range(len(pieceConfigs['I'])):
     elif i > 0:
         E.add_constraint(~PieceConfig('O', i))
 
+@proposition(E)
+class PiecePosition:
+    def __init__(self, piece_name, SRSstate, x, y):
+        def __init__ 
+
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
 # that are instances of this class must be true by using a @constraint decorator.
