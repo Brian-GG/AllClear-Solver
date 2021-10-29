@@ -78,6 +78,17 @@ for place in piecePlacements:
                 for y in range (20):
                     piecePlacements[place][SRSstate][(x, y)] = PiecePosition()
 
+for place in piecePlacements:
+    constraint.add_exactly_one(E, *(piecePlacements[place]))
+
+
+for place in piecePlacements:
+    for piece_name in range(names):
+        for SRSstate in range(4):
+            for x in range(10):
+                for y in range(20):
+
+
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
 # that are instances of this class must be true by using a @constraint decorator.
