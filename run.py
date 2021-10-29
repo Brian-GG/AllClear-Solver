@@ -1,29 +1,35 @@
-
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
 
+import pprint
 # Encoding that will store all of your constraints
 E = Encoding()
 
-# To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
-@proposition(E)
-class BasicPropositions:
+####################
+#
+# Propositions
+#
+####################
 
-    def __init__(self, data):
-        self.data = data
-
-    def __repr__(self):
-        return f"A.{self.data}"
-
+# The proposition to track the rotation state of the piece
 @proposition(E)
 class PieceConfig:
-    def __init__(self, piece_name, SRSstate):
+    def __init__(self, piece_name, SRSstate) -> None:
         self.piece_name = piece_name
         self.SRSstate = SRSstate
 
     def __repr__(self) -> str:
         return f"PieceConfig({self.piece_name, self.SRSstate})"
 
+numConfigs = {
+    'I': 2,
+    'J': 4,
+    'L': 4,
+    'O': 1,
+    'S': 2,
+    'T': 4,
+    'Z': 2
+}
 
 pieceConfigs = {
     'I': [],
@@ -36,53 +42,86 @@ pieceConfigs = {
 }
 
 for piece_name in pieceConfigs:
-    for i in range(4):
+    for i in range(pieceConfigs[piece_name]):
         pieceConfigs[piece_name].append(PieceConfig(piece_name, i))
+
 
 for piece_name in pieceConfigs:
     constraint.add_exactly_one(E, *(pieceConfigs[piece_name]))
 
-for i in range(len(pieceConfigs['I'])):
-    if i > 1:
-        E.add_constraint(~PieceConfig('I', i))
-        E.add_constraint(~PieceConfig('S', i))
-        E.add_constraint(~PieceConfig('Z', i))
-        E.add_constraint(~PieceConfig('O', i))
-    elif i > 0:
-        E.add_constraint(~PieceConfig('O', i))
 
-names = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']
+
+# The propostition to place a piece onto the board
 @proposition(E)
 class PiecePosition:
-    def __init__(self, piece_name, SRSstate, x, y):
+    def __init__(self, num,  piece_name, SRSstate, x, y) -> None:
+        self.num = num
         self.piece_name = piece_name
         self.SRSstate = SRSstate
         self.x = x
         self.y = y
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"({self.piece_name, self.SRSstate, self.x, self.y})"
 
 piecePlacements = {
-    "1": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
-    "2": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
-    "3": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
-    "4": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)},
-    "5": {piece_name: {SRSstate: {} for SRSstate in range (4)} for piece_name in range(names)}
+    "1": {piece_name: {SRSstate: {} for SRSstate in range(numConfigs[piece_name])} for piece_name in range(pieceConfigs)},
+    "2": {piece_name: {SRSstate: {} for SRSstate in range(numConfigs[piece_name])} for piece_name in range(pieceConfigs)},
+    "3": {piece_name: {SRSstate: {} for SRSstate in range(numConfigs[piece_name])} for piece_name in range(pieceConfigs)},
+    "4": {piece_name: {SRSstate: {} for SRSstate in range(numConfigs[piece_name])} for piece_name in range(pieceConfigs)},
+    "5": {piece_name: {SRSstate: {} for SRSstate in range(numConfigs[piece_name])} for piece_name in range(pieceConfigs)}
 }
 
-for place in piecePlacements:
-    for piece_name in range(names):
-        for SRSstate in range(4):
+piecesAtLocation = {}
+
+pieceLocationsByNum = {
+    num: [] for num in piecePlacements
+}
+
+for num in piecePlacements:
+    for piece_name in pieceConfigs:
+        for SRS in range(pieceConfigs[piece_name]):
             for x in range(10):
                 for y in range(20):
-                    piecePlacements[place][SRSstate][(x, y)] = PiecePosition()
+                    prop = PiecePosition(num, piece_name, SRS, x, y)
 
-for place in piecePlacements:
-    constraint.add_exactly_one(E, *(piecePlacements[place]))
+                    piecePlacements[num][piece_name][SRS][(x, y)] = prop
+                    pieceLocationsByNum[num].append(prop)
+
+                    if (x, y) not in piecesAtLocation:
+                        piecesAtLocation[(x, y)] = []
+                    piecesAtLocation[(x, y)].append(prop)
 
 
-def checkIfLegalPlacement(order, piece_name, SRSstate, x, y):
+@proposition(E)
+class PlaceNumber:
+    def __init__(self, num, x, y) -> None:
+        self.num = num
+        self.x = x
+        self.y = y
+
+    def __repr__(self) -> str:
+        return f"PlaceColour({self.num}, {self.x}, {self.y})"
+
+numAtLocation = {}
+for x in range(10):
+    for y in range(20):
+        numAtLocation[(x,y)] = {}
+        for num in piecePlacements:
+            prop = PlaceNumber(num, x, y)
+            numAtLocation[(x, y)][num] = prop
+
+#####################
+#
+# Constraints
+#
+#####################
+
+
+for num in piecePlacements:
+    constraint.add_exactly_one(E, *(piecePlacements[num]))
+
+def checkIfLegalPlacement(piece_name, SRSstate, x, y):
     if piece_name is 'I':
         if SRSstate is 0:
             if x > 7 or x < 1:
@@ -169,18 +208,36 @@ def checkIfLegalPlacement(order, piece_name, SRSstate, x, y):
     return True
 
 
-
-for place in piecePlacements:
-    for piece_name in range(names):
-        for SRSstate in range(4):
+for num in piecePlacements:
+    for piece_name in range(numConfigs):
+        for SRSstate in range(numConfigs[piece_name]):
             for x in range(10):
                 for y in range(20):
-                    if not checkIfLegalPlacement(place, piece_name, SRSstate, x, y):
-                        E.add_constraint(PiecePosition(piece_name, SRSstate, x, y).negate())
+                    if not checkIfLegalPlacement(piece_name, SRSstate, x, y):
+                        E.add_constraint(~PiecePosition(num, piece_name, SRSstate, x, y))
+
+for x in range(10):
+    for y in range(20):
+        constraint.add_at_most_one(E, *(piecesAtLocation[(x, y)]))
+
+for num in pieceLocationsByNum:
+    constraint.add_exactly_one(E, *(pieceLocationsByNum[num]))
+
+for num in pieceLocationsByNum:
+    for var in pieceLocationsByNum[num]:
+        cVar = pieceConfigs[piecePlacements.piece_name][var.config_num]
+        E.add_constraint(var >> cVar)
 
 
+# To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
+@proposition(E)
+class BasicPropositions:
 
+    def __init__(self, data):
+        self.data = data
 
+    def __repr__(self):
+        return f"A.{self.data}"
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
@@ -196,6 +253,7 @@ class FancyPropositions:
 
     def __repr__(self):
         return f"A.{self.data}"
+
 
 # Call your variables whatever you want
 a = BasicPropositions("a")
