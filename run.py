@@ -73,13 +73,101 @@ piecePlacements = {
 
 for place in piecePlacements:
     for piece_name in range(names):
-        for SRSstate in range (4):
-            for x in range (10):
-                for y in range (20):
+        for SRSstate in range(4):
+            for x in range(10):
+                for y in range(20):
                     piecePlacements[place][SRSstate][(x, y)] = PiecePosition()
 
 for place in piecePlacements:
     constraint.add_exactly_one(E, *(piecePlacements[place]))
+
+
+def checkIfLegalPlacement(order, piece_name, SRSstate, x, y):
+    if piece_name is 'I':
+        if SRSstate is 0:
+            if x > 7 or x < 1:
+                return False
+
+        if SRSstate is 1:
+            if y < 2:
+                return False
+
+    elif piece_name is 'J':
+        if SRSstate is 0:
+            if x > 7:
+                return False
+
+        if SRSstate is 1:
+            if x > 8 or y < 2:
+                return False
+
+        if SRSstate is 2:
+            if x < 2 or y < 1:
+                return False
+
+        if SRSstate is 3:
+            if x < 1:
+                return False
+
+    elif piece_name is 'L':
+        if SRSstate is 0:
+            if x < 2:
+                return False
+
+        if SRSstate is 1:
+            if x > 8:
+                return False
+
+        if SRSstate is 2:
+            if x > 7 or y < 1:
+                return False
+
+        if SRSstate is 3:
+            if x < 1 or y < 2:
+                return False
+
+    elif piece_name is 'O':
+        if SRSstate is 0:
+            if x < 1 or y < 1:
+                return False
+
+    elif piece_name is 'S':
+        if SRSstate is 0:
+            if x > 8 or x < 1 or y < 1:
+                return False
+
+        if SRSstate is 1:
+            if x > 8 or y < 1:
+                return False
+
+    elif piece_name is 'T':
+        if SRSstate is 0:
+            if x > 8 or x < 1:
+                return False
+
+        if SRSstate is 1:
+            if x > 8  or y < 1:
+                return False
+
+        if SRSstate is 2:
+            if x > 8 or x < 1 or y < 1:
+                return False
+
+        if SRSstate is 3:
+            if x < 1 or y < 1:
+                return False
+
+    elif piece_name is 'Z':
+        if SRSstate is 0:
+            if x > 8 or x < 1 or y < 1:
+                return False
+
+        if SRSstate is 1:
+            if x < 1 or y < 1:
+                return False
+
+    return True
+
 
 
 for place in piecePlacements:
@@ -87,6 +175,11 @@ for place in piecePlacements:
         for SRSstate in range(4):
             for x in range(10):
                 for y in range(20):
+                    if not checkIfLegalPlacement(place, piece_name, SRSstate, x, y):
+                        E.add_constraint(PiecePosition(piece_name, SRSstate, x, y).negate())
+
+
+
 
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
