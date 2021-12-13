@@ -57,12 +57,18 @@ class OPiece(Tetrimino):
             self.SRS_state = SRS_state
             i = self.anchor.x
             j = self.anchor.y
-            constraint.implies_all(Filled(i, j), Filled(i + 1, j), Filled(i + 1, j + 1), Filled(i, j + 1))
+            constraint.implies_all(Filled(i, j), Filled(i + 1, j), Filled(i + 1, j - 1), Filled(i, j - 1))
 
         else:
             raise ValueError(f"Not a valid SRS state!")
 
+OConfigs = []
 
+for i in range(4):
+    for j in range(4):
+        OConfigs.append(OPiece(Coordinate(i, j), 0))
+
+constraint.add_exactly_one(E, *(OConfigs))
 
 
 
@@ -291,6 +297,7 @@ def sample_theory():
     E.add_constraint()
 
     T = E.compile()
+
     return T
 
 
@@ -301,8 +308,8 @@ if __name__ == "__main__":
     # After compilation (and only after), you can check some of the properties
     # of your model:
     print("\nSatisfiable: %s" % T.satisfiable())
-    print("Solution " % T.solve())
 
+    pprint.pprint(T.solve())
     # print("   Solution: %s" % T.solve())
 
 
