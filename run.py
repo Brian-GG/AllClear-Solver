@@ -301,24 +301,26 @@ class IPiece(Tetrimino):
     def __repr__(self):
         return f"IPiece is at {self.anchor} with SRS: {self.SRS_state}"
 
-OConfigs = {
-    "first": [],
-    "second": []
+PieceConfigs = {
+    "O": [],
+
 }
 
-for order in OConfigs:
+for order in PieceConfigs:
     for i in range(10):
         for j in range(4):
-
-            OConfigs[order].append(OPiece(Coordinate(i, j), 0))
-
+            PieceConfigs.append(OPiece(Coordinate(i, j), 0))
 
 
-for order in OConfigs:
-    constraint.add_exactly_one(E, *(OConfigs[order]))
+
+for order in PieceConfigs:
+    constraint.add_exactly_one(E, *(PieceConfigs[order]))
 
 
-def sample_theory():
+def ClearBoard():
+    # Setting up the board to start
+
+    E.add_constraint()
 
     T = E.compile()
 
@@ -327,7 +329,7 @@ def sample_theory():
 
 if __name__ == "__main__":
 
-    T = sample_theory()
+    T = ClearBoard()
 
     # After compilation (and only after), you can check some of the properties
     # of your model:
