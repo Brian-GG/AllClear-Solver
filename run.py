@@ -8,11 +8,7 @@ from Tetrimino import Tetrimino
 # Encoding that will store all of your constraints
 E = Encoding()
 
-####################
-#
-# Propositions
-#
-####################
+
 
 # The proposition to track the rotation state of the piece
 @proposition(E)
@@ -55,6 +51,7 @@ Grid = []
 
 @constraint.implies_all(E, right=O)
 @proposition(E)
+#This is the proposition for the O piece
 class OPiece(Tetrimino):
 
     def __init__(self, anchor, SRS_state):
@@ -77,6 +74,7 @@ class OPiece(Tetrimino):
 
 @constraint.implies_all(E, right=L)
 @proposition(E)
+#This is the proposition for the L piece
 class LPiece(Tetrimino):
 
     def __init__(self, anchor, SRS_state):
@@ -86,15 +84,222 @@ class LPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled())
+                Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i-1, j-1)), Filled(i-2, j-1))
+            # - - - -
+            # - - x -
+            # x x x -
+            # - - - -
+            
+            if SRS_state == 1:
+                Grid.append(Filled(i, j), Filled(i-1, j)), Filled(i-1, j-2)), Filled(i-1, j-3))
+            # - x - -
+            # - x - -
+            # - x x -
+            # - - - -
 
+            if SRS_state == 2:
+                Grid.append(Filled(i, j), Filled(i, j+1)), Filled(i+1, j+1)), Filled(i+2, j+1))
+            # - - - -
+            # x x x -
+            # x - - -
+            # - - - -
+
+            if SRS_state == 3:
+                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+1, j-1)), Filled(i+1, j-2))
+            # - x x -
+            # - - x -
+            # - - x -
+            # - - - -            
+            
         else:
             raise ValueError(f"Not a valid SRS state!")
 
     def __repr__(self):
         return f"LPiece is at {self.anchor} with SRS: {self.SRS_state}"
 
+@constraint.implies_all(E, right=J)
+@proposition(E)
+#This is the proposition for the J piece
+class JPiece(Tetrimino):
 
+    def __init__(self, anchor, SRS_state):
+        self.anchor = anchor
+        if SRS_state in range(0, 4):
+            self.SRS_state = SRS_state
+            i = self.anchor.x
+            j = self.anchor.y
+            if SRS_state == 0:
+                Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i+1, j-1)), Filled(i+2, j-1))
+            # - - - -
+            # - x - -
+            # - x x x
+            # - - - -
+
+            if SRS_state == 1:
+                Grid.append(Filled(i, j), Filled(i-1, j)), Filled(i-1, j-1)), Filled(i-1, j-2))
+            # - x x -
+            # - x - -
+            # - x - -
+            # - - - -
+            
+            if SRS_state == 2:
+                Grid.append(Filled(i, j), Filled(i, j+1)), Filled(i-1, j+1)), Filled(i-2, j+1))
+            # - - - -
+            # x x x -
+            # - - x -
+            # - - - -
+            
+            if SRS_state == 3:
+                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+1, j+1)), Filled(i+1, j+2))
+            # - - x -
+            # - - x -
+            # - x x -
+            # - - - -
+
+        else:
+            raise ValueError(f"Not a valid SRS state!")
+
+    def __repr__(self):
+        return f"JPiece is at {self.anchor} with SRS: {self.SRS_state}"
+
+@constraint.implies_all(E, right=T)
+@proposition(E)
+#This is the proposition for the T piece
+class TPiece(Tetrimino):
+
+    def __init__(self, anchor, SRS_state):
+        self.anchor = anchor
+        if SRS_state in range(0, 4):
+            self.SRS_state = SRS_state
+            i = self.anchor.x
+            j = self.anchor.y
+            if SRS_state == 0:
+                Grid.append(Filled(i, j), Filled(i-1, j-1)), Filled(i, j-1)), Filled(i+1, j-1))
+            # - - x -
+            # - x x x
+            # - - - -
+            # - - - -
+            
+            if SRS_state == 1:
+            Grid.append(Filled(i, j), Filled(i-1, j+1)), Filled(i-1, j)), Filled(i-1, j-1))
+            # - - x -
+            # - - x x
+            # - - x -
+            # - - - -
+            
+            if SRS_state == 2:
+                Grid.append(Filled(i, j), Filled(i+1, j+1)), Filled(i, j+1)), Filled(i-1, j+1))
+            # - - - -
+            # - x x x
+            # - - x -
+            # - - - -            
+
+            if SRS_state == 3:
+                Grid.append(Filled(i, j), Filled(i+1, j-1)), Filled(i+1, j)), Filled(i+1, j+1))
+            # - - x -
+            # - x x -
+            # - - x -
+            # - - - -
+            
+        else:
+            raise ValueError(f"Not a valid SRS state!")
+
+    def __repr__(self):
+        return f"TPiece is at {self.anchor} with SRS: {self.SRS_state}"
+        
+@constraint.implies_all(E, right=Z)
+@proposition(E)
+#This is the proposition for the Z piece
+class ZPiece(Tetrimino):
+
+    def __init__(self, anchor, SRS_state):
+        self.anchor = anchor
+        if SRS_state in range(0, 4):
+            self.SRS_state = SRS_state
+            i = self.anchor.x
+            j = self.anchor.y
+            if SRS_state == 0:
+                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+1, j-1)), Filled(i+2, j-1))
+            # - - - -
+            # x x - -
+            # - x x -
+            # - - - -
+            
+            if SRS_state == 1:
+                Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i-1, j-1)), Filled(i-1, j-2))
+            # - - x -
+            # - x x -
+            # - x - -
+            # - - - -            
+            
+        else:
+            raise ValueError(f"Not a valid SRS state!")
+
+    def __repr__(self):
+        return f"ZPiece is at {self.anchor} with SRS: {self.SRS_state}"
+
+@constraint.implies_all(E, right=S)
+@proposition(E)
+#This is the proposition for the S piece
+class SPiece(Tetrimino):
+
+    def __init__(self, anchor, SRS_state):
+        self.anchor = anchor
+        if SRS_state in range(0, 4):
+            self.SRS_state = SRS_state
+            i = self.anchor.x
+            j = self.anchor.y
+            if SRS_state == 0:
+                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i-1, j-1)), Filled(i, j-1))
+            # - - - -
+            # - x x -
+            # x x - -
+            # - - - -
+            
+            if SRS_state == 1:
+                Grid.append(Filled(i, j), Filled(i, j+1)), Filled(i+1, j-1)), Filled(i+1, j))
+            # - x - -
+            # - x x -
+            # - - x -
+            # - - - -
+            
+        else:
+            raise ValueError(f"Not a valid SRS state!")
+
+    def __repr__(self):
+        return f"SPiece is at {self.anchor} with SRS: {self.SRS_state}"
+
+
+@constraint.implies_all(E, right=I)
+@proposition(E)
+#This is the proposition for the I piece
+class IPiece(Tetrimino):
+
+    def __init__(self, anchor, SRS_state):
+        self.anchor = anchor
+        if SRS_state in range(0, 4):
+            self.SRS_state = SRS_state
+            i = self.anchor.x
+            j = self.anchor.y
+            if SRS_state == 0:
+                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+2, j)), Filled(i+3, j))
+            # - - - -
+            # x x x x
+            # - - - -
+            # - - - -
+            
+            if SRS_state == 1:
+            Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i, j-2)), Filled(i, j-3))
+            # - x - -
+            # - x - -
+            # - x - -
+            # - x - -
+            
+        else:
+            raise ValueError(f"Not a valid SRS state!")
+
+    def __repr__(self):
+        return f"IPiece is at {self.anchor} with SRS: {self.SRS_state}"
 
 OConfigs = {
     "first": [],
