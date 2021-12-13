@@ -84,28 +84,28 @@ class LPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i-1, j-1)), Filled(i-2, j-1))
+                Grid.append(Filled(i, j), Filled(i, j-1), Filled(i-1, j-1), Filled(i-2, j-1))
             # - - - -
             # - - x -
             # x x x -
             # - - - -
             
             if SRS_state == 1:
-                Grid.append(Filled(i, j), Filled(i-1, j)), Filled(i-1, j-2)), Filled(i-1, j-3))
+                Grid.append(Filled(i, j), Filled(i-1, j), Filled(i-1, j-2), Filled(i-1, j-3))
             # - x - -
             # - x - -
             # - x x -
             # - - - -
 
             if SRS_state == 2:
-                Grid.append(Filled(i, j), Filled(i, j+1)), Filled(i+1, j+1)), Filled(i+2, j+1))
+                Grid.append(Filled(i, j), Filled(i, j+1), Filled(i+1, j+1), Filled(i+2, j+1))
             # - - - -
             # x x x -
             # x - - -
             # - - - -
 
             if SRS_state == 3:
-                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+1, j-1)), Filled(i+1, j-2))
+                Grid.append(Filled(i, j), Filled(i+1, j), Filled(i+1, j-1), Filled(i+1, j-2))
             # - x x -
             # - - x -
             # - - x -
@@ -129,28 +129,28 @@ class JPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i+1, j-1)), Filled(i+2, j-1))
+                Grid.append(Filled(i, j), Filled(i, j-1), Filled(i+1, j-1), Filled(i+2, j-1))
             # - - - -
             # - x - -
             # - x x x
             # - - - -
 
             if SRS_state == 1:
-                Grid.append(Filled(i, j), Filled(i-1, j)), Filled(i-1, j-1)), Filled(i-1, j-2))
+                Grid.append(Filled(i, j), Filled(i-1, j), Filled(i-1, j-1), Filled(i-1, j-2))
             # - x x -
             # - x - -
             # - x - -
             # - - - -
             
             if SRS_state == 2:
-                Grid.append(Filled(i, j), Filled(i, j+1)), Filled(i-1, j+1)), Filled(i-2, j+1))
+                Grid.append(Filled(i, j), Filled(i, j+1), Filled(i-1, j+1), Filled(i-2, j+1))
             # - - - -
             # x x x -
             # - - x -
             # - - - -
             
             if SRS_state == 3:
-                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+1, j+1)), Filled(i+1, j+2))
+                Grid.append(Filled(i, j), Filled(i+1, j), Filled(i+1, j+1), Filled(i+1, j+2))
             # - - x -
             # - - x -
             # - x x -
@@ -174,28 +174,28 @@ class TPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled(i-1, j-1)), Filled(i, j-1)), Filled(i+1, j-1))
+                Grid.append(Filled(i, j), Filled(i-1, j-1), Filled(i, j-1), Filled(i+1, j-1))
             # - - x -
             # - x x x
             # - - - -
             # - - - -
             
             if SRS_state == 1:
-            Grid.append(Filled(i, j), Filled(i-1, j+1)), Filled(i-1, j)), Filled(i-1, j-1))
+            Grid.append(Filled(i, j), Filled(i-1, j+1), Filled(i-1, j), Filled(i-1, j-1))
             # - - x -
             # - - x x
             # - - x -
             # - - - -
             
             if SRS_state == 2:
-                Grid.append(Filled(i, j), Filled(i+1, j+1)), Filled(i, j+1)), Filled(i-1, j+1))
+                Grid.append(Filled(i, j), Filled(i+1, j+1), Filled(i, j+1), Filled(i-1, j+1))
             # - - - -
             # - x x x
             # - - x -
             # - - - -            
 
             if SRS_state == 3:
-                Grid.append(Filled(i, j), Filled(i+1, j-1)), Filled(i+1, j)), Filled(i+1, j+1))
+                Grid.append(Filled(i, j), Filled(i+1, j-1), Filled(i+1, j), Filled(i+1, j+1))
             # - - x -
             # - x x -
             # - - x -
@@ -219,14 +219,14 @@ class ZPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+1, j-1)), Filled(i+2, j-1))
+                Grid.append(Filled(i, j), Filled(i+1, j), Filled(i+1, j-1), Filled(i+2, j-1))
             # - - - -
             # x x - -
             # - x x -
             # - - - -
             
             if SRS_state == 1:
-                Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i-1, j-1)), Filled(i-1, j-2))
+                Grid.append(Filled(i, j), Filled(i, j-1), Filled(i-1, j-1), Filled(i-1, j-2))
             # - - x -
             # - x x -
             # - x - -
@@ -250,14 +250,14 @@ class SPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i-1, j-1)), Filled(i, j-1))
+                Grid.append(Filled(i, j), Filled(i+1, j), Filled(i-1, j-1), Filled(i, j-1))
             # - - - -
             # - x x -
             # x x - -
             # - - - -
             
             if SRS_state == 1:
-                Grid.append(Filled(i, j), Filled(i, j+1)), Filled(i+1, j-1)), Filled(i+1, j))
+                Grid.append(Filled(i, j), Filled(i, j+1), Filled(i+1, j-1), Filled(i+1, j))
             # - x - -
             # - x x -
             # - - x -
@@ -282,14 +282,14 @@ class IPiece(Tetrimino):
             i = self.anchor.x
             j = self.anchor.y
             if SRS_state == 0:
-                Grid.append(Filled(i, j), Filled(i+1, j)), Filled(i+2, j)), Filled(i+3, j))
+                Grid.append(Filled(i, j), Filled(i+1, j), Filled(i+2, j), Filled(i+3, j))
             # - - - -
             # x x x x
             # - - - -
             # - - - -
             
             if SRS_state == 1:
-            Grid.append(Filled(i, j), Filled(i, j-1)), Filled(i, j-2)), Filled(i, j-3))
+            Grid.append(Filled(i, j), Filled(i, j-1), Filled(i, j-2), Filled(i, j-3))
             # - x - -
             # - x - -
             # - x - -
