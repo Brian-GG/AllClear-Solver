@@ -14,5 +14,9 @@ class Coordinate:
             self.x = other.x
             self.y = other.y
 
+
         else:
             raise AttributeError("That is not a coordinate")
+
+    def __repr__(self):
+        return f"x: {self.x}, y: {self.y}"
