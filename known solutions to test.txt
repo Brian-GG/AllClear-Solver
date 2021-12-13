@@ -10,3 +10,32 @@ L L L L L L L L L L
 L L L L L L L L L L
 L L L L L L L L L L
 
+2 I 2 L 1 J 2 T 1 Z 1 S 1 Q
+I J J J Z Z I I I I
+I Q Q J T Z Z T T T
+I Q Q L T T S S T L
+I L L L T S S L L L
+
+2 I 1 L 2 J 2 T 1 Z 1 S 1 Q
+I J J J Z Z I I I I
+I Q Q J T Z Z J J J
+I Q Q L T T S S T J
+I L L L T S S T T T
+
+2 I 1 L 2 J 2 T 1 Z 1 S 1 Q
+I J J J Z Z T T T I
+I Q Q J T Z Z T J I
+I Q Q L T T S S J I
+I L L L T S S J J I
+
+1 I 2 L 1 J 2 T 2 Z 1 S 1 Q
+I J J J Z Z Z Z L L
+I Q Q J T Z Z Z Z L
+I Q Q L T T S S T Z
+I L L L T S S T T T
+
+1 I 2 L 1 J 2 T 2 Z 1 S 1 Q
+I J J J Z Z T T T Z
+I Q Q J T Z Z T Z Z
+I Q Q L T T S S Z L
+I L L L T S S L L L
