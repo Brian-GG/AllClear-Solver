@@ -394,11 +394,23 @@ def ClearBoard():
     for i in range(10):
         for j in range(4):
             # All squares begin empty
-            E.add_constraint(Empty)
+            E.add_constraint(Empty(i,j))
 
     T = E.compile()
 
     return T
+
+def UnclearBoard():
+    # Setting one already placed tiles
+    for i in range(10):
+        for j in range(4):
+            if i == 1 and j == 1:
+                # Squares that begin filled
+                E.add_constraint(Filled(i, j))
+
+            else:
+                # Squares begin empty
+                E.add_constraint(Empty(i, j))
 
 
 if __name__ == "__main__":
